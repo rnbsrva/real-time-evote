@@ -1,0 +1,29 @@
+type Query {
+    _placeholder: String
+}
+
+type Mutation {
+    savePoll(pollSaveDTO: PollSaveDTO!): Poll!
+    vote(voteDTO: VoteDTO!): Boolean
+}
+input PollSaveDTO {
+    name: String!
+    options: [String!]!
+}
+
+input VoteDTO {
+    pollId: String!
+    optionId: String!
+    email: String!
+}
+
+type Poll {
+    id: String!
+    title: String!
+    options: [Option!]!
+}
+
+type Option {
+    id:String!
+    text:String!
+}
