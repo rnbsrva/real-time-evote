@@ -18,7 +18,6 @@ class WebSocketConfig: WebSocketMessageBrokerConfigurer {
 
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint("/ws-notifications").setAllowedOrigins("*")
-//                .setHandshakeHandler(DefaultHandshakeHandler())
                 .withSockJS();
     }
 }

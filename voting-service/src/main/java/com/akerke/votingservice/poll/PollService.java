@@ -1,9 +1,14 @@
 package com.akerke.votingservice.poll;
 
+import com.akerke.votingservice.common.KafkaMessageSender;
+import com.akerke.votingservice.common.Topic;
+import com.akerke.votingservice.poll.dto.PollDTO;
 import com.akerke.votingservice.poll.dto.PollSaveDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +20,10 @@ public class PollService {
 
     private final PollRepository pollRepository;
     private final OptionRepository optionRepository;
+    private final PollMapper pollMapper;
+    private final KafkaMessageSender kafkaMessageSender;
 
+    @Transactional
     Poll savePoll(PollSaveDTO pollSaveDto){
         log.info("Saving poll: {}", pollSaveDto);
 
@@ -24,6 +32,9 @@ public class PollService {
 
         var savedPoll = pollRepository.save(poll);
         savedPoll.setOptions(this.saveOptions(pollSaveDto.options(), savedPoll));
+
+        kafkaMessageSender.sendMessage(Topic.POLL.name(), pollMapper.toDTO(savedPoll));
+
         return pollRepository.save(savedPoll);
     }
 

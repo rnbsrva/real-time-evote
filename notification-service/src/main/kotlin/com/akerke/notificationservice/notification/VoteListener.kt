@@ -13,7 +13,7 @@ class VoteListener (
 
     @KafkaListener(topics = ["votes"], groupId = "vote_group")
     fun listen(voteDTO: VoteDTO) {
-        notificationService.checkForNotifications(voteDTO);
+        notificationService.sendNotificationWhenReachThreshold(voteDTO);
     }
 
 }
