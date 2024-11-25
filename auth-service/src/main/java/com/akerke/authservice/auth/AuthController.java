@@ -1,5 +1,7 @@
 package com.akerke.authservice.auth;
 
+import com.akerke.authservice.auth.dto.AuthRequest;
+import com.akerke.authservice.auth.dto.RegisterRequest;
 import com.akerke.authservice.jwt.TokenPair;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
